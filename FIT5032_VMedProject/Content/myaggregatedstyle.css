@@ -1,0 +1,33 @@
+﻿.add-button {
+    text-decoration: none; /* Remove the default underline */
+    padding: 10px 20px; /* Add padding for better visual appearance */
+    background-color: #0b6bd7; /* Background color */
+    color: #ffffff; /* Text color */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+    .add-button:hover {
+        background-color: #0056b3; /* Change background color on hover */
+        color: #ffffff; /* Change text color on hover */
+    }
+
+.send-button {
+    text-decoration: none; /* Remove the default underline */
+    padding: 10px 20px; /* Add padding for better visual appearance */
+    background-color: #009900; /* Green background color */
+    color: #ffffff; /* Text color */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+    .send-button:hover {
+        background-color: #27AE60; /* Change background color on hover to a slightly darker green */
+        color: #ffffff; /* Change text color on hover */
+    }
+
+.button-space {
+    margin-right: 10px; /* Adjust the margin as needed */
+}

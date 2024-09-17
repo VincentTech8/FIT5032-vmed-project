@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "VMed MRI Imaging Group";
+}
+
+<style>
+    .btn-dark-blue {
+        background-color: #0000A0; /* Dark blue color (adjust as needed) */
+        color: #FFFFFF; /* Text color (usually white on a dark background) */
+        border-color: #0000A0; /* Border color */
+    }
+
+        .btn-dark-blue:hover {
+            background-color: #00008B; /* Dark blue color on hover (adjust as needed) */
+            border-color: #00008B; /* Border color on hover */
+        }
+
+    /* Style for the full-width banner container */
+    .full-width-banner-container {
+        position: relative; /* Set the container to a relative position */
+    }
+
+    /* Style for the full-width banner image */
+    .full-width-banner {
+        width: 100%; /* Make the banner fill the entire width */
+        height: 450px; /* Set the height to 500 pixels */
+        display: block;
+        max-width: 100%; /* Ensure the image doesn't exceed its natural size */
+    }
+
+    /* Style for the button overlay "Book Appointment" */
+    .button-overlay {
+        position: absolute; /* Set the button to an absolute position */
+        top: 90%; /* Adjust the vertical position as needed */
+        right: 17%; /* Adjust the horizontal position as needed */
+        text-align: center;
+        transform: translateY(-50%); /* Center the button vertically */
+    }
+
+    /* Style for the button overlay "Location" */
+    .button-overlay1 {
+        position: absolute; /* Set the button to an absolute position */
+        top: 90%; /* Adjust the vertical position as needed */
+        right: 5%; /* Adjust the horizontal position as needed */
+        text-align: center;
+        transform: translateY(-50%); /* Center the button vertically */
+    }
+
+    /* Style for the text overlay (initially hidden) */
+    .text-overlay {
+        position: absolute; /* Set the text to an absolute position */
+        top: 40%; /* Adjust the vertical position as needed */
+        left: 50%; /* Center the text horizontally */
+        transform: translateX(-50%); /* Center the text horizontally */
+        text-align: center;
+        color: #FFFFFF; /* Text color (adjust as needed) */
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+        padding: 10px;
+        max-width: 90%; /* Limit the text width */
+        font-size: 15px;
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease-in-out; /* Add a smooth transition for opacity */
+    }
+
+    /* Style for the text overlay when hovered */
+    .full-width-banner-container:hover .text-overlay {
+        opacity: 1; /* Show the text when the container is hovered */
+    }
+</style>
+
+<main>
+    <!-- Full-width banner section -->
+    <section class="full-width-banner-container">
+        <!-- Image with a responsive class -->
+        <img class="full-width-banner" src="@Url.Content("~/Content/Images/banner_1280px.jpg")" alt="MRI Image" />
+        <!-- "Book Appointment" button as an overlay -->
+        <div class="button-overlay">
+            <a class="btn btn-primary btn-lg btn-dark-blue" href="@Url.Action("Index", "Appointments", new { area = "" })">Book Appointment &raquo;</a>
+        </div>
+        <!-- "Location" button as an overlay -->
+        <div class="button-overlay1">
+            <a class="btn btn-primary btn-lg btn-dark-blue" href="@Url.Action("Index", "Clinics", new { area = "" })">Location &raquo;</a>
+        </div>
+        <!-- Text overlay (initially hidden) -->
+        <div class="text-overlay">
+            <p>We're open and welcoming patients</p>
+            <br />
+            <p>VMed MRI Imaging Group facilities located throughout Victoria, Western Australia, and South Australia - We are dedicated to supporting your medical imaging needs.</p>
+        </div>
+    </section>
+
+    <div class="row">
+        <div class="col-md-4">
+            <section aria-labelledby="doctorsTitle">
+                <h2 id="doctorsTitle">Our Doctors</h2>
+                <p>
+                    VMed MRI Imaging Group is dedicated to providing high-quality MRI imaging services for healthcare professionals and patients.
+                </p>
+                <p><a class="btn btn-primary btn-md" href="@Url.Action("Index", "Doctors", new { area = "" })">Learn more &raquo;</a></p>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section aria-labelledby="servicesTitle">
+                <h2 id="servicesTitle">Our Services</h2>
+                <p>Discover our wide range of MRI imaging services, including advanced diagnostic imaging and expert radiology consultations.</p>
+                <p><a class="btn btn-primary btn-md" href="@Url.Action("Index", "Services", new { area = "" })">Learn more &raquo;</a></p>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section aria-labelledby="contactTitle">
+                <h2 id="contactTitle">Contact Us</h2>
+                <p>Contact us today to schedule an appointment or inquire about our imaging solutions and services.</p>
+                <br />
+                <p><a class="btn btn-primary btn-md" href="@Url.Action("Contact", "Home", new { area = "" })">Contact &raquo;</a></p>
+            </section>
+        </div>
+    </div>
+</main>

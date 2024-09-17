@@ -1,0 +1,11 @@
+﻿#datepickerstyle {
+    width: 280px;
+}
+
+    #datepickerstyle > span:hover {
+        cursor: pointer;
+    }
+
+.custom-width {
+    text-align: center;
+}

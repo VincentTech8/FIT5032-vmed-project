@@ -1,0 +1,69 @@
+﻿@model FIT5032_VMedProject.Models.Rating
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Rating</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DoctorID, "Doctor ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DoctorID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DoctorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RatingValue, "Rating Value", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RatingValue, new { htmlAttributes = new { @class = "form-control", id = "RatingValue" } })
+                @Html.ValidationMessageFor(model => model.RatingValue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control", id = "Comment" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+    <script>
+        // Attach keyup event handlers to the "Comment" input fields
+        document.getElementById("Comment").addEventListener("keyup", filterInput);
+
+        function filterInput() {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers or letters
+            this.value = inputValue.replace(/[^0-9a-zA-Z\s.]/g, "");
+        }
+
+        // Attach keyup event handler to the "Rating Value" input field
+        document.getElementById("RatingValue").addEventListener("keyup", function () {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers
+            this.value = inputValue.replace(/[^0-9.]/g, "");
+        });
+    </script>
+</div>

@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Send Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Send Email</h2>
+
+@using (Html.BeginForm("SendEmail", "Email", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.Label("To Email")
+        @Html.TextBox("toEmail", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Subject")
+        @Html.TextBox("subject", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Message")
+        @Html.TextArea("message", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Attachment (PDF or PNG)")
+        <input type="file" name="attachment" />
+    </div>
+
+    <button type="submit" class="send-button">Send Email</button>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myForm").validate({
+                rules: {
+                    toEmail: {
+                        required: true,
+                        email: true
+                    },
+                    subject: {
+                        required: true
+                    },
+                    message: {
+                        required: true
+                    },
+                    attachment: {
+                        required: true
+                    }
+                },
+                messages: {
+                    toEmail: {
+                        required: "Please enter a valid email address",
+                        email: "Please enter a valid email address"
+                    },
+                    subject: {
+                        required: "Please enter a subject"
+                    },
+                    message: {
+                        required: "Please enter a message"
+                    },
+                    attachment: {
+                        required: "Please select an attachment"
+                    }
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Style for error messages */
+        .error {
+            color: red;
+            margin-top: 10px; /* Adjust the top margin as needed */
+        }
+    </style>
+}
+<br />
+<p>
+    <a href="@Url.Action("BackToListOne")" class="add-button">
+        <i class="bi bi-arrow-90deg-left" aria-hidden="true"></i> Back to List
+    </a>
+</p>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}

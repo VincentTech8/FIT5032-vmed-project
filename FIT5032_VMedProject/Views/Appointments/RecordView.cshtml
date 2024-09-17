@@ -1,0 +1,212 @@
+﻿@model IEnumerable<FIT5032_VMedProject.Models.Appointment>
+
+@{
+    ViewBag.Title = "Record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    @if (User.IsInRole("Administrator"))
+    {
+        <text>All Records</text>
+    }
+    else
+    {
+        <text>My Records</text>
+    }
+</h2>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="filterSelect">Filter by Month:</label>
+            <select id="filterSelect" class="form-control">
+                <option value="all">All Data</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+        <canvas id="servicePieChart"></canvas>
+    </div>
+    <div class="col-md-8">
+        <table id="appointmentTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Appointment Date
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Notes)
+                    </th>
+                    <th>
+                        Doctor
+                    </th>
+                    <th>
+                        Service
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                    <th>
+                        Patient Email
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.AppointmentDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Notes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doctor.FirstName) @Html.DisplayFor(modelItem => item.Doctor.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Service.ServiceName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Service.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <!-- References -->
+    <!-- 1. Getting Started with Chart.js -https://www.chartjs.org/docs/latest/getting-started/ -->
+    <!-- 2.	Pie Chart with Chart.js -https://www.chartjs.org/docs/latest/samples/other-charts/pie.html -->
+    <!-- 3.	Creating Different Types of Charts in ASP.NET MVC -https://www.codeguru.com/dotnet/creating-different-types-of-charts-in-asp-net-mvc/ -->
+    <!-- 4. CanvaJS -https://canvasjs.com/asp-net-mvc-charts/pie-chart/ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Initialize DataTable with custom filtering function
+        var dataTable = $('.table').DataTable({
+            "columnDefs": [
+                {
+                    "targets": 0, // Assuming the first column contains the date
+                    "type": "date-ddmmyyyy", // Define the date format
+                }
+            ]
+        });
+
+        // Custom filtering function for date in "dd-mm-yyyy" format
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var selectedValue = $('#filterSelect').val();
+
+            if (selectedValue === 'all') {
+                return true; // Show all data
+            }
+
+            var cellValue = data[0]; // Assumes the date is in the first column
+            var selectedMonth = parseInt(selectedValue);
+
+            var cellDate = cellValue.split('-');
+            var cellMonth = parseInt(cellDate[1]);
+
+            return cellMonth === selectedMonth;
+        });
+
+        // Handle filter change
+        $('#filterSelect').on('change', function () {
+            dataTable.draw(); // Redraw the table to apply the filter
+            updateGraph(dataTable);
+        });
+
+        var serviceCounts = @Html.Raw(Json.Encode(ViewBag.ServiceCounts));
+
+        var ctx = document.getElementById('servicePieChart').getContext('2d');
+        var servicePieChart;
+
+        function updateGraph(dataTable) {
+            var filteredData = dataTable.rows({ filter: 'applied' }).data().toArray();
+            var filteredServiceCounts = calculateServiceCounts(filteredData);
+
+            if (servicePieChart) {
+                servicePieChart.destroy(); // Destroy the previous chart instance
+            }
+
+            // Extract the service names and their counts
+            var serviceNames = filteredServiceCounts.map(function (service) {
+                return service.ServiceName;
+            });
+
+            var serviceCountsArray = filteredServiceCounts.map(function (service) {
+                return service.Count;
+            });
+
+            servicePieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: serviceNames,
+                    datasets: [{
+                        label: 'Total Procedures',
+                        data: serviceCountsArray,
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                }
+            });
+        }
+
+        // Helper function to calculate service counts
+        function calculateServiceCounts(data) {
+            var serviceCounts = data.reduce(function (counts, item) {
+                var serviceName = item[3]; // The service name is in the fourth column
+                if (!counts[serviceName]) {
+                    counts[serviceName] = 0;
+                }
+                counts[serviceName]++;
+                return counts;
+            }, {});
+
+            var serviceCountsArray = Object.keys(serviceCounts).map(function (key) {
+                return {
+                    ServiceName: key,
+                    Count: serviceCounts[key]
+                };
+            });
+
+            return serviceCountsArray;
+        }
+
+        // Initial update of the graph
+        updateGraph(dataTable);
+    });
+    </script>
+}

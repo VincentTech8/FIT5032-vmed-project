@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<style>
+    main {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        background-color: #0000A0; /* Dark-blue background color */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    section {
+        margin: 20px 0;
+        background-color: #428BCA; /* Light-blue background color for the section */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        position: relative;
+    }
+
+        h3::after {
+            content: "\25BC";
+            font-size: 20px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+
+    .dropdown-content {
+        display: none;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title VMed Medical Imaging Group</h2>
+
+    <p>
+        At VMed Medical Imaging Group, we are dedicated to advancing healthcare through state-of-the-art MRI (Magnetic Resonance
+        Imaging) technology. Our commitment to providing exceptional medical imaging services has made us a trusted partner for
+        patients and healthcare professionals alike.
+    </p>
+
+    <section>
+        <h3 onclick="toggleDropdown(this)">Our Mission</h3>
+        <div class="dropdown-content">
+            <!-- Add the "show" class to make it the default -->
+            <p>
+                Our mission is simple yet profound: to offer accurate, detailed, and compassionate MRI imaging services that empower
+                patients and healthcare providers with the information they need to make informed decisions about their health.
+                We believe in the power of medical imaging to transform healthcare, and we are passionate about delivering the highest
+                quality care to every individual we serve.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h3 onclick="toggleDropdown(this)">Cutting-Edge MRI Technology</h3>
+        <div class="dropdown-content">
+            <p>
+                We understand that medical imaging plays a pivotal role in diagnosis and treatment planning. That's why we invest in
+                the latest MRI technology, ensuring that our patients receive the most precise and comprehensive imaging available.
+                Our state-of-the-art MRI scanners are designed to capture detailed images of the body's internal structures, helping
+                healthcare professionals detect and evaluate a wide range of medical conditions.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h3 onclick="toggleDropdown(this)">Expertise and Compassion</h3>
+        <div class="dropdown-content">
+            <p>
+                At VMed, we are more than just a medical imaging facility – we are a team of dedicated professionals who care deeply
+                about our patients. Our experienced radiologists and technologists are committed to providing a comfortable and
+                reassuring experience during your MRI procedure. We understand that undergoing medical imaging can be an anxious
+                time, and we are here to answer your questions and address your concerns with empathy and expertise.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h3 onclick="toggleDropdown(this)">Patient-Centered Care</h3>
+        <div class="dropdown-content">
+            <p>
+                We place our patients at the center of everything we do. From the moment you schedule your MRI appointment to the
+                delivery of your results, our focus is on your well-being. Our friendly and knowledgeable staff will guide you
+                through the process, ensuring that you feel informed and supported every step of the way.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h3 onclick="toggleDropdown(this)">Collaborative Healthcare</h3>
+        <div class="dropdown-content">
+            <p>
+                VMed Medical Imaging Group collaborates closely with referring physicians and healthcare providers to ensure that
+                the MRI imaging we provide is integrated seamlessly into your overall healthcare plan. We believe in the importance
+                of a collaborative approach to healthcare, and we provide timely, accurate reports to your healthcare team to
+                facilitate diagnosis and treatment.
+            </p>
+        </div>
+    </section>
+</main>
+
+<script>
+    function toggleDropdown(element) {
+        var content = element.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            element.querySelector('::after').style.transform = 'rotate(0deg)';
+        } else {
+            content.style.display = "block";
+            element.querySelector('::after').style.transform = 'rotate(180deg)';
+        }
+    }
+</script>

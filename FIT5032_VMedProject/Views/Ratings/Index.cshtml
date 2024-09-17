@@ -1,0 +1,73 @@
+﻿@model IEnumerable<FIT5032_VMedProject.Models.Rating>
+
+@{
+    ViewBag.Title = "Rating List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rating List</h2>
+<br />
+<p>
+    <a href="@Url.Action("Create")" class="add-button">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Rating
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Full Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatingValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doctor.FirstName)
+                    @Html.DisplayFor(modelItem => item.Doctor.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatingValue)
+                    <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <a href="@Url.Action("Edit", new { id = item.RatingID })" style="color: white; text-decoration: none;">
+                        <i class="bi bi-pencil-fill" aria-hidden="true" style="color: darkorange;"></i>
+                    </a> |
+                    <a href="@Url.Action("Details", new { id = item.RatingID })" style="color: white; text-decoration: none;">
+                        <i class="fa fa-book" aria-hidden="true" style="color: darkorange;"></i>
+                    </a> |
+                    <a href="@Url.Action("Delete", new { id = item.RatingID })" style="color: white; text-decoration: none;">
+                        <i class="bi bi-trash-fill" aria-hidden="true" style="color: darkorange;"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}

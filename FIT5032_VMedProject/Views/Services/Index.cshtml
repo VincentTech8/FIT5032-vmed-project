@@ -1,0 +1,98 @@
+﻿@model IEnumerable<FIT5032_VMedProject.Models.Service>
+
+@{
+    ViewBag.Title = "MRI Service List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MRI Service List</h2>
+<br />
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a href="@Url.Action("Create")" class="add-button">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Service
+        </a>
+    </p>
+}
+
+<table id="serviceTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Service Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href="@Url.Action("Edit", new { id = item.ServiceID })" style="color: black; text-decoration: none;">
+                            <i class="bi bi-pencil-fill" aria-hidden="true" style="color: darkorange;"></i>
+                            |
+                        </a>}
+                    <a href="@Url.Action("Details", new { id = item.ServiceID })" style="color: white; text-decoration: none;">
+                        <i class="fa fa-book" aria-hidden="true" style="color: darkorange;"></i>
+                    </a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href="@Url.Action("Delete", new { id = item.ServiceID })" style="color: black; text-decoration: none;">
+                            |
+                            <i class="bi bi-trash-fill" aria-hidden="true" style="color: darkorange;"></i>
+                        </a>}
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Reference: DataTables File Export -https://datatables.net/extensions/buttons/examples/initialisation/export.html -->
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#serviceTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<FIT5032_VMedProject.Models.AspNetUser>
+
+@{
+    ViewBag.Title = "Bulk Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bulk Email</h2>
+
+@using (Html.BeginForm("SendBulkEmail", "Email", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                Select
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="selectedUserIds" value="@item.Id" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="form-group">
+        @Html.Label("Subject")
+        @Html.TextBox("subject", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Message")
+        <textarea id="message" name="message" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Attachment (PDF or PNG)")
+        <input type="file" name="attachment" />
+    </div>
+
+    <button type="submit" class="send-button">Send Bulk Email</button>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/su3rxecfl51zaxf1zp32c0g1zhca954iv2ekwgdjgj3e7ctk/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myForm").validate({
+                rules: {
+                    toEmail: {
+                        required: true,
+                        email: true
+                    },
+                    subject: {
+                        required: true
+                    },
+                    message: {
+                        required: true
+                    },
+                    attachment: {
+                        required: true
+                    }
+                },
+                messages: {
+                    toEmail: {
+                        required: "Please enter a valid email address",
+                        email: "Please enter a valid email address"
+                    },
+                    subject: {
+                        required: "Please enter a subject"
+                    },
+                    message: {
+                        required: "Please enter a message"
+                    },
+                    attachment: {
+                        required: "Please select an attachment"
+                    }
+                }
+            });
+
+            tinymce.init({
+                selector: 'textarea#message',
+                plugins: 'autoresize lists link image media table',
+                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | link image media table',
+                height: 300,
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        tinymce.triggerSave();
+                    });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Style for error messages */
+        .error {
+            color: red;
+            margin-top: 10px; /* Adjust the top margin as needed */
+        }
+    </style>
+}
+
+<br />
+<p>
+    <a href="@Url.Action("BackToListOne")" class="add-button">
+        <i class="bi bi-arrow-90deg-left" aria-hidden="true"></i> Back to List
+    </a>
+</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}

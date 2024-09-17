@@ -1,0 +1,98 @@
+﻿@model FIT5032_VMedProject.Models.Clinic
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Clinic</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClinicName, "Clinic Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClinicName, new { htmlAttributes = new { @class = "form-control", id = "ClinicName" } })
+                @Html.ValidationMessageFor(model => model.ClinicName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", id = "Address" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control", id = "LatID" } })
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control", id = "LongID" } })
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactNumber, "Contact Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control", id = "PhoneNumber" } })
+                @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+    <script>
+        // Attach keyup event handlers to the "First Name" and "Last Name" input fields
+        document.getElementById("ClinicName").addEventListener("keyup", filterInput);
+        document.getElementById("Address").addEventListener("keyup", filterInput);
+
+        function filterInput() {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers or letters
+            this.value = inputValue.replace(/[^0-9a-zA-Z\s]/g, "");
+        }
+
+        // Attach keyup event handler to the "Latitude" input field
+        document.getElementById("LatID").addEventListener("keyup", function () {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers
+            this.value = inputValue.replace(/[^0-9.\-]/g, "");
+        });
+        // Attach keyup event handler to the "Longitude" input field
+        document.getElementById("LongID").addEventListener("keyup", function () {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers
+            this.value = inputValue.replace(/[^0-9.\-]/g, "");
+        });
+        // Attach keyup event handler to the "Contact Number" input field
+        document.getElementById("PhoneNumber").addEventListener("keyup", function () {
+            var inputValue = this.value;
+            // Use a regular expression to remove characters that are not numbers
+            this.value = inputValue.replace(/[^0-9]/g, "");
+        });
+    </script>
+</div>

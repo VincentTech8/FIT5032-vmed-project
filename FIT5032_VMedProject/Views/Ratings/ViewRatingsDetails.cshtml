@@ -1,0 +1,44 @@
+﻿@model FIT5032_VMedProject.Models.Rating
+
+@{
+    ViewBag.Title = "ViewRatingsDetais";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Rating</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Rating Value
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            Doctor
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.FirstName)
+            @Html.DisplayFor(model => model.Doctor.LastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "ViewRatingsEdit", new { id = Model.RatingID }) |
+    @Html.ActionLink("Back to List", "ViewRatings", new { doctorId = Model.DoctorID })
+</p>
